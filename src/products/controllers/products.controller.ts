@@ -123,14 +123,14 @@ export class ProductsController {
         });
 
         let product: Product = await this.productsService.getRepository().createQueryBuilder()
-        .where('user.id = :uid', { uid: user.id })
+        .where('userid = :uid', { uid: user.id })
         .andWhere('id = :pid', { pid: payload.id })
         .getOne();
 
         this.logger.info(`Deleting product ${product.id}`)
 
         let images = await this.productImagesService.getRepository().createQueryBuilder()
-        .where('product.id = :pid', { pid: payload.id })
+        .where('productid = :pid', { pid: payload.id })
         .getMany();
 
         let imageIds = images.map(image => {return image.id});
@@ -166,7 +166,7 @@ export class ProductsController {
         });
 
         let product: Product = await this.productsService.getRepository().createQueryBuilder('product')
-        .where('user.id = :uid', { uid: user.id })
+        .where('userid = :uid', { uid: user.id })
         .andWhere('id = :pid', { pid: payload.id })
         .getOne();
 
@@ -181,7 +181,7 @@ export class ProductsController {
 
         await this.productImagesService.getRepository().createQueryBuilder()
         .delete()
-        .where('product.id = :pid', { pid: payload.id })
+        .where('productid = :pid', { pid: payload.id })
         .andWhere({ID: Not(In(ids)) })
         .execute()
 
@@ -213,7 +213,7 @@ export class ProductsController {
         });
         
         let products: Product[] = await this.productsService.getRepository().createQueryBuilder('product')
-        .where('user.id = :uid', { uid: user.id })
+        .where('userid = :uid', { uid: user.id })
         .leftJoinAndSelect('product.images', 'product_image')
         .getMany()
 
@@ -253,14 +253,10 @@ export class ProductsController {
     @ApiOkResponse()
     @Get("obtain/:product")
     @UseGuards(AuthenticatedGuard)
-    async getProduct(
-        @Param('product') product: string,
-        @Res({passthrough: true}) response: Response,
-        @Req() request: Request
-    ) {
+    async getProduct(@Param('product') product: string) {
 
         let products: Product[] = await this.productsService.getRepository().createQueryBuilder('product')
-        .where('product.id = :pid', { pid: product })
+        .where('productid = :pid', { pid: product })
         .leftJoinAndSelect('product.images', 'product_image')
         .getMany()
 

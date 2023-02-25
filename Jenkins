@@ -17,13 +17,5 @@ pipeline {
         always {
             deleteDir()
         }
-        success {
-            script{
-                sh '''
-                /usr/local/bin/kubectl scale deployment products --replicas=0 --namespace=operation
-                /usr/local/bin/kubectl scale deployment products --replicas=1 --namespace=operation
-                '''
-            }
-        }
     }
 }

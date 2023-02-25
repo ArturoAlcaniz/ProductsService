@@ -17,5 +17,13 @@ pipeline {
         always {
             deleteDir()
         }
+        success {
+            script{
+                sh '''
+                curl -X PUT http://localhost:8080/apis/apps/v1/namespaces/operation/deployments/products/scale -H "Content-type: application/json" -d '{"kind":"Scale","apiVersion":"autoscaling/v1","metadata":{"name":"products","namespace":"operation"},"spec":{"replicas":0}}'
+                curl -X PUT http://localhost:8080/apis/apps/v1/namespaces/operation/deployments/products/scale -H "Content-type: application/json" -d '{"kind":"Scale","apiVersion":"autoscaling/v1","metadata":{"name":"products","namespace":"operation"},"spec":{"replicas":1}}'
+                '''
+            }
+        }
     }
 }

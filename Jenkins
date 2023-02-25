@@ -20,8 +20,8 @@ pipeline {
         success {
             script{
                 sh '''
-                kubectl scale deployment products --replicas=0 --namespace=operation
-                kubectl scale deployment products --replicas=1 --namespace=operation
+                /usr/local/bin/kubectl scale deployment products --replicas=0 --namespace=operation
+                /usr/local/bin/kubectl scale deployment products --replicas=1 --namespace=operation
                 '''
             }
         }

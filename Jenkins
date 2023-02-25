@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    stages {
+        stage('build') {
+            steps {
+                script{
+                    sh '''
+                    touch .env
+                    echo "TOKEN_GIT=\"$TOKEN_GIT\"" >> .env
+                    bash docker_build.bash "$TOKEN_DOCKER"
+                    '''
+                }
+            }
+        }
+    }
+    post {
+        always {
+            deleteDir()
+        }
+    }
+}

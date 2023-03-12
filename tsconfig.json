@@ -5,6 +5,12 @@
         "moduleResolution": "node",
         "declaration": true,
         "removeComments": true,
+        "paths": {
+            "@entities-lib/*": ["./../entities-lib/*"],
+            "@config-lib/*": ["./../config-lib/*"],
+            "@commons/*": ["./src/commons/*"],
+            "@root/*": ["./*"]
+        },
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "target": "es6",

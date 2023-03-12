@@ -1,6 +1,6 @@
 import {InjectRepository} from "@nestjs/typeorm";
-import {User} from "$/../../../entities-lib/src/entities/user.entity";
-import {BaseService} from "../../commons/service.commons";
+import {User} from "@entities-lib/src/entities/user.entity";
+import {BaseService} from "@commons/service.commons";
 import {FindOneOptions, Repository} from "typeorm";
 import {Injectable} from "@nestjs/common";
 

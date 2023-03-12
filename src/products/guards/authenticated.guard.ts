@@ -1,8 +1,8 @@
 import {CanActivate, ExecutionContext, Injectable} from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import {User} from "$/../../../entities-lib/src/entities/user.entity";
+import {User} from "@entities-lib/src/entities/user.entity";
 import {UsersService} from "../services/users.service";
-import {firstValueFrom, lastValueFrom} from "rxjs";
+import {lastValueFrom} from "rxjs";
 import {HttpService} from "@nestjs/axios";
 
 @Injectable()

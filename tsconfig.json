@@ -5,6 +5,7 @@
         "moduleResolution": "node",
         "declaration": true,
         "removeComments": true,
+        "baseUrl": "./",
         "paths": {
             "@entities-lib/*": ["./../entities-lib/*"],
             "@config-lib/*": ["./../config-lib/*"],

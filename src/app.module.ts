@@ -22,6 +22,7 @@ import { Code } from "@entities-lib/src/entities/code.entity";
 import { Invoice } from "@entities-lib/src/entities/invoice.entity";
 import { InvoiceItem } from "@entities-lib/src/entities/invoiceItem.entity";
 import { JwtModule } from "@nestjs/jwt";
+import { DevtoolsModule } from "@nestjs/devtools-integration";
 
 const resolvePath = (file: string) => path.resolve(`./dist/ui_v1/${file}`);
 
@@ -37,8 +38,8 @@ class FrontendMiddleware implements NestMiddleware {
         JwtModule.register(jwtConfig()),
         TypeOrmModule.forRoot({
             type: "mariadb",
-            host: "database",
-            port: 3306,
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT && Number.parseFloat(process.env.DB_PORT),
             username: process.env.DB_USER,
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
@@ -65,6 +66,9 @@ class FrontendMiddleware implements NestMiddleware {
                     level: "info",
                 }),
             ],
+        }),
+        DevtoolsModule.register({
+            http: process.env.NODE_ENV === "develop",
         }),
     ],
     providers: [],

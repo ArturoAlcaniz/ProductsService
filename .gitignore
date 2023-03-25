@@ -9,3 +9,4 @@ certs/localhost/sslcache
 entities-lib/node_modules
 config-lib/node_modules
 .env
+dist

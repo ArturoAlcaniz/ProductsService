@@ -7,4 +7,4 @@ cd /app/config-lib
 npm install
 cd /app/ProductsService
 npm install
-npm start 
+npm run tsc 

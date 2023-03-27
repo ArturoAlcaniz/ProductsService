@@ -70,7 +70,9 @@ export class ProductsController {
             productImages.push(productImage)
         })
 
-        if(this.productImagesService.saveMany(productImages)){
+        product.images = productImages
+
+        if(this.productsService.save(product)){
             response.status(200).json({message: ["successfully_product_created"]});
         }
     }

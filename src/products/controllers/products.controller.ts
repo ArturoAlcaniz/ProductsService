@@ -65,6 +65,8 @@ export class ProductsController {
 
         product = await this.productsService.save(product)
 
+        product = await this.productsService.save(product)
+
         let productImages: ProductImage[] = []
       
         images.forEach(value => {
@@ -189,7 +191,9 @@ export class ProductsController {
 
         let idsToDelete: string[] = idsOld.filter((id) => !ids.includes(id));
 
-        await this.productImagesService.deleteMany(idsToDelete);
+        if(idsToDelete.length > 0) {
+            await this.productImagesService.deleteMany(idsToDelete);
+        }
         
         let productImages: ProductImage[] = []
         

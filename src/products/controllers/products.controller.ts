@@ -216,10 +216,12 @@ export class ProductsController {
             },
         });
         
-        let products: Product[] = await this.productsService.getRepository().createQueryBuilder('product')
-        .where('userid = :uid', { uid: user.id })
-        .leftJoinAndSelect('product.images', 'product_image')
-        .getMany()
+        let products: Product[] = await this.productsService.find({
+            relations: ['images'],
+            where: {
+                user: {id: user.id}
+            }
+        });
 
         return products;
     }

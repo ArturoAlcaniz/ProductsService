@@ -63,6 +63,8 @@ export class ProductsController {
             user
         );
 
+        product = await this.productsService.save(product)
+
         let productImages: ProductImage[] = []
       
         images.forEach(value => {

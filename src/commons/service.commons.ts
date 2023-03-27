@@ -110,7 +110,7 @@ export abstract class BaseService<T> {
      * @returns A promise that resolves with an array of the saved entities.
      */
     async saveMany(entities: T[]): Promise<T[]> {
-        const savedEntities = await Promise.all(entities.map(entity => this.repository.save(entity)));
+        const savedEntities = await this.repository.save(entities);
         return savedEntities;
     }
 

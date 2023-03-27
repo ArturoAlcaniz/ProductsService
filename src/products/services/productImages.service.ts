@@ -10,7 +10,7 @@ export class ProductImagesService extends BaseService<ProductImage> {
     constructor(
         @InjectRepository(ProductImage) private productImageRepository: Repository<ProductImage>
     ){
-        super();
+        super(productImageRepository);
     }
 
     getRepository(): Repository<ProductImage> {

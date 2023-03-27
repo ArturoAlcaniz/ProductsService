@@ -263,7 +263,7 @@ export class ProductsController {
         let p: Product = await this.productsService.findOne({
             relations: ['images'],
             where: {
-                product: {id: product }
+                id: product
             } as FindOptionsWhere<Product>
         })
 

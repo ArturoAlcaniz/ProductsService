@@ -51,13 +51,14 @@ export abstract class BaseService<T> {
      * @param conditions - The conditions to match.
      * @returns A promise that resolves with an array of matching entities.
      */
-    async find(conditions?: FindManyOptions<T> & { relations?: string[], order?: any }): Promise<T[]> {
+    async find(conditions?: FindManyOptions<T> & { relations?: string[], order?: any, leftJoinAndSelect?: any }): Promise<T[]> {
         const schema = Joi.object({
             where: Joi.object(),
             order: Joi.object(),
             skip: Joi.number().integer().min(0),
             take: Joi.number().integer().min(1),
             relations: Joi.array().items(Joi.string()),
+            leftJoinAndSelect: Joi.object(),
         });
 
         try {

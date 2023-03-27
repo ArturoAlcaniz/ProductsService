@@ -220,6 +220,9 @@ export class ProductsController {
             relations: ['images'],
             where: {
                 user: {id: user.id}
+            },
+            leftJoinAndSelect: {
+                images: 'product.images',
             }
         });
 

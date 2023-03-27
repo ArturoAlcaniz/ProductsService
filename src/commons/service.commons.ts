@@ -1,5 +1,4 @@
 import Joi from "joi";
-import { CustomRepositoryNotFoundError } from "typeorm/error";
 import {
     DeepPartial,
     DeleteResult,
@@ -128,10 +127,6 @@ export abstract class BaseService<T> {
 
             await this.repository.remove(entity);
         } catch (error) {
-            if (error instanceof CustomRepositoryNotFoundError) {
-                throw new Error(`Could not remove entity: ${error.message}`);
-            }
-
             throw error;
         }
     }

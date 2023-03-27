@@ -230,9 +230,9 @@ export class ProductsController {
     ) {
         
         let products: Product[] = await this.productsService.find({
-            relations: ['images', 'buyer'],
+            relations: ['images', 'sold'],
             where: {
-                buyer: IsNull(),
+                sold: IsNull(),
             } as FindOptionsWhere<Product>,
         })
 

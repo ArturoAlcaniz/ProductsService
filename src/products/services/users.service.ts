@@ -10,7 +10,7 @@ export class UsersService extends BaseService<User> {
     constructor(
         @InjectRepository(User) private userRepository: Repository<User>
     ) {
-        super();
+        super(userRepository);
     }
 
     getRepository(): Repository<User> {

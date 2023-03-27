@@ -11,7 +11,7 @@ export class ProductsService extends BaseService<Product> {
     constructor(
         @InjectRepository(Product) private productRepository: Repository<Product>
     ){
-        super();
+        super(productRepository);
     }
 
     getRepository(): Repository<Product> {

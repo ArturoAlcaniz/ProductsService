@@ -17,7 +17,7 @@ import fs, { createReadStream } from 'fs';
 import { join } from "path";
 import { ModifyProductDto } from "../dtos/modifyProduct.dto";
 import { DeleteProductDto } from "../dtos/deleteProduct.dto";
-import { In, Not } from "typeorm";
+import { FindManyOptions, FindOptionsWhere, In, Not } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 import multer from "multer";
 
@@ -139,7 +139,7 @@ export class ProductsController {
             await this.productImagesService.deleteMany(imageIds);
         }
 
-        if ((await this.productsService.delete(product.id)).affected) {
+        if ((await this.productsService.delete({ id: product.id })).affected) {
             response.status(200).json({message: ["successfully_product_deleted"]});
         }
     }
@@ -231,10 +231,9 @@ export class ProductsController {
         
         let products: Product[] = await this.productsService.find({
             relations: ['images'],
-            loadRelationsId: true,
             where: {
                 buyer: null
-            },
+            } as FindOptionsWhere<Product>,
         })
 
         return products;

@@ -17,7 +17,7 @@ import fs, { createReadStream } from 'fs';
 import { join } from "path";
 import { ModifyProductDto } from "../dtos/modifyProduct.dto";
 import { DeleteProductDto } from "../dtos/deleteProduct.dto";
-import { FindManyOptions, FindOptionsWhere, In, Not } from "typeorm";
+import { FindManyOptions, FindOptionsWhere, In, IsNull, Not } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 import multer from "multer";
 
@@ -230,9 +230,9 @@ export class ProductsController {
     ) {
         
         let products: Product[] = await this.productsService.find({
-            relations: ['images'],
+            relations: ['images', 'buyer'],
             where: {
-                buyer: null
+                buyer: IsNull(),
             } as FindOptionsWhere<Product>,
         })
 

@@ -165,10 +165,13 @@ export class ProductsController {
             },
         });
 
-        let product: Product = await this.productsService.getRepository().createQueryBuilder('product')
-        .where('userid = :uid', { uid: user.id })
-        .andWhere('id = :pid', { pid: payload.id })
-        .getOne();
+
+        let product: Product = await this.productsService.findOne({
+            where: {
+                user: user,
+                id: payload.id
+            } as FindOptionsWhere<Product>
+        });
 
         product.productName = payload.productname;
         product.description = payload.description;
@@ -179,12 +182,12 @@ export class ProductsController {
 
         let ids: string[] = JSON.parse(payload.imagesAlreadyAdded)
 
-        await this.productImagesService.getRepository().createQueryBuilder()
-        .delete()
-        .where('productid = :pid', { pid: payload.id })
-        .andWhere({ID: Not(In(ids)) })
-        .execute()
-
+        await this.productImagesService.deleteMany({
+                product: product,
+                id: Not(In(ids))
+            } as FindOptionsWhere<ProductImage>
+        );
+        
         let productImages: ProductImage[] = []
         
         images.forEach(value => {

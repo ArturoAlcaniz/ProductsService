@@ -220,9 +220,6 @@ export class ProductsController {
             relations: ['images'],
             where: {
                 user: {id: user.id}
-            },
-            leftJoinAndSelect: {
-                images: 'product.images',
             }
         });
 
@@ -263,12 +260,14 @@ export class ProductsController {
     @UseGuards(AuthenticatedGuard)
     async getProduct(@Param('product') product: string) {
 
-        let products: Product[] = await this.productsService.getRepository().createQueryBuilder('product')
-        .where('productid = :pid', { pid: product })
-        .leftJoinAndSelect('product.images', 'product_image')
-        .getMany()
+        let p: Product = await this.productsService.findOne({
+            relations: ['images'],
+            where: {
+                product: {id: product }
+            } as FindOptionsWhere<Product>
+        })
 
-        return products;
+        return p;
     }
     
     @UseGuards(ThrottlerGuard)

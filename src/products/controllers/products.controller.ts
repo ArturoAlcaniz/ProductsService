@@ -182,11 +182,11 @@ export class ProductsController {
 
         let ids: string[] = JSON.parse(payload.imagesAlreadyAdded)
 
-        await this.productImagesService.deleteMany({
-                product: {id: product.id},
-                id: Not(In(ids))
-            } as FindOptionsWhere<ProductImage>
-        );
+        let idsOld: string[] = product.images.map((image) => image.id);
+
+        let idsToDelete: string[] = idsOld.filter((id) => !ids.includes(id));
+
+        await this.productImagesService.deleteMany(idsToDelete);
         
         let productImages: ProductImage[] = []
         

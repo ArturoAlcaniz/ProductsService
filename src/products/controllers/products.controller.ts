@@ -167,6 +167,7 @@ export class ProductsController {
 
 
         let product: Product = await this.productsService.findOne({
+            relations: ['images'],
             where: {
                 user: user,
                 id: payload.id

@@ -19,6 +19,7 @@ import {Invoice} from "@entities-lib/src/entities/invoice.entity";
 import {InvoiceItem} from "@entities-lib/src/entities/invoiceItem.entity";
 import {JwtModule} from "@nestjs/jwt";
 import {DevtoolsModule} from "@nestjs/devtools-integration";
+import { MetricsController } from "./metrics.controller";
 
 const resolvePath = (file: string) => path.resolve(`./dist/ui_v1/${file}`);
 
@@ -76,7 +77,7 @@ class FrontendMiddleware implements NestMiddleware {
         }),
     ],
     providers: [],
-    controllers: [AppController],
+    controllers: [AppController, MetricsController],
     exports: [WinstonModule, ThrottlerModule, JwtModule],
 })
 export class ApplicationModule {

@@ -1,5 +1,5 @@
 import {IsDecimal, IsNotEmpty, IsOptional, IsString} from "class-validator";
-import { Double } from "typeorm";
+import {Double} from "typeorm";
 
 export class ModifyProductDto {
     @IsNotEmpty()

@@ -2,27 +2,23 @@ import {Response} from "express";
 import {ConfigModule} from "@nestjs/config";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {User} from "@entities-lib/src/entities/user.entity";
-import { jwtConfig } from "@config-lib/src/jwt.config";
+import {jwtConfig} from "@config-lib/src/jwt.config";
 import {AppController} from "./app.controller";
 import {ProductsModule} from "./products/products.module";
-import {
-    Module,
-    NestMiddleware,
-    MiddlewareConsumer,
-} from "@nestjs/common";
+import {Module, NestMiddleware, MiddlewareConsumer} from "@nestjs/common";
 import path from "path";
 import {HttpModule} from "@nestjs/axios";
 import {ThrottlerModule} from "@nestjs/throttler";
 import {WinstonModule} from "nest-winston";
 import * as winston from "winston";
-import { Product } from "@entities-lib/src/entities/product.entity";
-import { ProductImage } from "@entities-lib/src/entities/productimage.entity";
-import { Payment } from "@entities-lib/src/entities/payment.entity"
-import { Code } from "@entities-lib/src/entities/code.entity";
-import { Invoice } from "@entities-lib/src/entities/invoice.entity";
-import { InvoiceItem } from "@entities-lib/src/entities/invoiceItem.entity";
-import { JwtModule } from "@nestjs/jwt";
-import { DevtoolsModule } from "@nestjs/devtools-integration";
+import {Product} from "@entities-lib/src/entities/product.entity";
+import {ProductImage} from "@entities-lib/src/entities/productimage.entity";
+import {Payment} from "@entities-lib/src/entities/payment.entity";
+import {Code} from "@entities-lib/src/entities/code.entity";
+import {Invoice} from "@entities-lib/src/entities/invoice.entity";
+import {InvoiceItem} from "@entities-lib/src/entities/invoiceItem.entity";
+import {JwtModule} from "@nestjs/jwt";
+import {DevtoolsModule} from "@nestjs/devtools-integration";
 
 const resolvePath = (file: string) => path.resolve(`./dist/ui_v1/${file}`);
 
@@ -43,7 +39,15 @@ class FrontendMiddleware implements NestMiddleware {
             username: process.env.DB_USER,
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
-            entities: [User,Payment,Product,ProductImage,Code,Invoice,InvoiceItem],
+            entities: [
+                User,
+                Payment,
+                Product,
+                ProductImage,
+                Code,
+                Invoice,
+                InvoiceItem,
+            ],
             synchronize: true,
             autoLoadEntities: true,
         }),
@@ -73,7 +77,7 @@ class FrontendMiddleware implements NestMiddleware {
     ],
     providers: [],
     controllers: [AppController],
-    exports: [WinstonModule, ThrottlerModule,JwtModule],
+    exports: [WinstonModule, ThrottlerModule, JwtModule],
 })
 export class ApplicationModule {
     configure(frontEnd: MiddlewareConsumer) {

@@ -6,7 +6,6 @@ import {Injectable} from "@nestjs/common";
 
 @Injectable()
 export class UsersService extends BaseService<User> {
-
     constructor(
         @InjectRepository(User) private userRepository: Repository<User>
     ) {

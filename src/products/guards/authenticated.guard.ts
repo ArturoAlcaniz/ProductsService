@@ -1,5 +1,5 @@
 import {CanActivate, ExecutionContext, Injectable} from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
+import {JwtService} from "@nestjs/jwt";
 import {User} from "@entities-lib/src/entities/user.entity";
 import {UsersService} from "../services/users.service";
 import {lastValueFrom} from "rxjs";
@@ -32,15 +32,17 @@ export class AuthenticatedGuard implements CanActivate {
 
         const user = this.jwtService.decode(cookie)["userId"];
 
-        const userLoggedIn = await (await lastValueFrom(
-            this.httpService.post(
-                `http://${process.env.USERS_CONTAINER_NAME}:${process.env.USERS_CONTAINER_PORT}/auth/loggedIn`,
-                JSON.stringify({user: user}),
-                {
-                    headers: {"content-type": "application/json"}
-                }
+        const userLoggedIn = await (
+            await lastValueFrom(
+                this.httpService.post(
+                    `http://${process.env.USERS_CONTAINER_NAME}:${process.env.USERS_CONTAINER_PORT}/auth/loggedIn`,
+                    JSON.stringify({user: user}),
+                    {
+                        headers: {"content-type": "application/json"},
+                    }
+                )
             )
-        )).data;
+        ).data;
 
         if (cookie != userLoggedIn) {
             return false;

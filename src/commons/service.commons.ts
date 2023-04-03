@@ -9,40 +9,49 @@ import {
     Repository,
     SelectQueryBuilder,
 } from "typeorm";
-import { RelationMetadata } from "typeorm/metadata/RelationMetadata";
+import {RelationMetadata} from "typeorm/metadata/RelationMetadata";
 
 export abstract class BaseService<T> {
     private readonly relationCache: Record<string, EntityMetadata> = {};
 
-    constructor(protected readonly repository: Repository<T>) { }
+    constructor(protected readonly repository: Repository<T>) {}
 
     private async createQueryBuilder({
         where,
         relations = [],
-    }: FindOneOptions<T> & { relations?: string[] } = {}): Promise<SelectQueryBuilder<T>> {
+    }: FindOneOptions<T> & {relations?: string[]} = {}): Promise<
+        SelectQueryBuilder<T>
+    > {
         const queryBuilder = this.repository.createQueryBuilder();
         const metadata: any = this.repository.metadata;
-    
+
         if (where) {
             queryBuilder.where(where);
         }
-    
+
         for (const relation of relations) {
             let relMetadata = this.relationCache[relation];
-    
+
             if (!relMetadata) {
-                relMetadata = metadata.relations.find((r: RelationMetadata) => r.propertyName === relation);
-    
+                relMetadata = metadata.relations.find(
+                    (r: RelationMetadata) => r.propertyName === relation
+                );
+
                 if (!relMetadata) {
-                    throw new Error(`Relation '${relation}' not found on entity '${metadata.name}'.`);
+                    throw new Error(
+                        `Relation '${relation}' not found on entity '${metadata.name}'.`
+                    );
                 }
-    
+
                 this.relationCache[relation] = relMetadata;
             }
-    
-            queryBuilder.leftJoinAndSelect(`${metadata.name}.${relation}`, relation);
+
+            queryBuilder.leftJoinAndSelect(
+                `${metadata.name}.${relation}`,
+                relation
+            );
         }
-    
+
         return queryBuilder;
     }
 
@@ -51,7 +60,9 @@ export abstract class BaseService<T> {
      * @param conditions - The conditions to match.
      * @returns A promise that resolves with an array of matching entities.
      */
-    async find(conditions?: FindManyOptions<T> & { relations?: string[], order?: any }): Promise<T[]> {
+    async find(
+        conditions?: FindManyOptions<T> & {relations?: string[]; order?: any}
+    ): Promise<T[]> {
         const schema = Joi.object({
             where: Joi.object(),
             order: Joi.object(),
@@ -63,7 +74,8 @@ export abstract class BaseService<T> {
         try {
             const validatedConditions = await schema.validateAsync(conditions);
 
-            const queryBuilder: SelectQueryBuilder<T> = await this.createQueryBuilder(validatedConditions);
+            const queryBuilder: SelectQueryBuilder<T> =
+                await this.createQueryBuilder(validatedConditions);
 
             const result = await queryBuilder.getMany();
             return result;
@@ -77,7 +89,9 @@ export abstract class BaseService<T> {
      * @param options - The query options.
      * @returns A promise that resolves with the first matching entity, or undefined if no entity was found.
      */
-    async findOne(options?: FindOneOptions<T> & { relations?: string[] }): Promise<T | undefined> {
+    async findOne(
+        options?: FindOneOptions<T> & {relations?: string[]}
+    ): Promise<T | undefined> {
         const queryBuilder = await this.createQueryBuilder(options);
 
         return await queryBuilder.getOne();
@@ -122,7 +136,7 @@ export abstract class BaseService<T> {
     async remove(entity: T): Promise<void> {
         try {
             if (!entity) {
-                throw new Error('Entity cannot be null or undefined');
+                throw new Error("Entity cannot be null or undefined");
             }
 
             await this.repository.remove(entity);
@@ -136,7 +150,9 @@ export abstract class BaseService<T> {
      * @param id - The ID of the entity to delete.
      * @returns A promise that resolves when the entity is deleted.
      */
-    async delete(conditions: FindOptionsWhere<T> | string[] | number[]): Promise<DeleteResult> {
+    async delete(
+        conditions: FindOptionsWhere<T> | string[] | number[]
+    ): Promise<DeleteResult> {
         return await this.repository.delete(conditions);
     }
 
@@ -159,7 +175,10 @@ export abstract class BaseService<T> {
 
         if (conditions) {
             Object.entries(conditions).forEach(([key, value]) => {
-                queryBuilder.andWhere(`${this.repository.metadata.name}.${key} = :${key}`, { [key]: value });
+                queryBuilder.andWhere(
+                    `${this.repository.metadata.name}.${key} = :${key}`,
+                    {[key]: value}
+                );
             });
         }
 

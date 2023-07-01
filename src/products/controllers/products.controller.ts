@@ -89,7 +89,7 @@ export class ProductsController {
             productImages.push(productImage);
         });
 
-        if (this.productImagesService.saveMany(productImages)) {
+        if (await this.productImagesService.saveMany(productImages)) {
             response
                 .status(200)
                 .json({message: ["successfully_product_created"]});
@@ -122,7 +122,7 @@ export class ProductsController {
             user
         );
 
-        if (this.productsService.save(product)) {
+        if (await this.productsService.save(product)) {
             response
                 .status(200)
                 .json({message: ["successfully_product_created"]});
@@ -230,8 +230,8 @@ export class ProductsController {
         });
 
         if (
-            this.productImagesService.saveMany(productImages) &&
-            this.productsService.save(product)
+            await this.productImagesService.saveMany(productImages) &&
+            await this.productsService.save(product)
         ) {
             response
                 .status(200)

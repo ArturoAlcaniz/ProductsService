@@ -47,7 +47,7 @@ export class ProductsController {
     ) {}
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(10, 3000)
+    @Throttle(100, 30)
     @ApiOkResponse()
     @Post("create")
     @UseGuards(AuthenticatedGuard)
@@ -97,7 +97,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(10, 3000)
+    @Throttle(10, 30)
     @ApiOkResponse()
     @Post("createWithoutImages")
     @UseGuards(AuthenticatedGuard)
@@ -130,7 +130,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(100, 30)
     @ApiOkResponse()
     @Post("delete")
     @UseGuards(AuthenticatedGuard)
@@ -176,7 +176,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(100, 30)
     @ApiOkResponse()
     @Post("modify")
     @UseGuards(AuthenticatedGuard)
@@ -240,7 +240,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(200, 600)
+    @Throttle(200, 60)
     @ApiOkResponse()
     @Get("obtain")
     @UseGuards(AuthenticatedGuard)
@@ -265,7 +265,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(100, 30)
     @ApiOkResponse()
     @Get("obtainAllAvailable")
     async getAllProducts(
@@ -283,7 +283,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(100, 10)
     @ApiOkResponse()
     @Get("obtainCategories")
     async getCategories() {
@@ -291,7 +291,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(100, 3)
     @ApiOkResponse()
     @Get("obtain/:product")
     @UseGuards(AuthenticatedGuard)
@@ -307,7 +307,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(100, 30)
     @ApiOkResponse()
     @Get("image/:product")
     async getAvatar(

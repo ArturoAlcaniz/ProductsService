@@ -240,7 +240,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(100, 3000)
+    @Throttle(200, 600)
     @ApiOkResponse()
     @Get("obtain")
     @UseGuards(AuthenticatedGuard)

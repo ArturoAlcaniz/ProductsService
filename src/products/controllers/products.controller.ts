@@ -291,7 +291,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(10, 3000)
+    @Throttle(100, 3000)
     @ApiOkResponse()
     @Get("obtain/:product")
     @UseGuards(AuthenticatedGuard)
@@ -323,7 +323,7 @@ export class ProductsController {
     }
 
     @UseGuards(ThrottlerGuard)
-    @Throttle(20, 3000)
+    @Throttle(200, 3000)
     @ApiOkResponse()
     @Get("image")
     async getAvatarDefault(
